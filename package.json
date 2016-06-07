@@ -1,6 +1,6 @@
 {
   "name": "vizceral-react",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A React wrapper around vizceral",
   "main": "dist/vizceral.js",
   "scripts": {
