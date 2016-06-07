@@ -1,0 +1,16 @@
+# System
+.DS_Store
+
+# Generated
+/.jshintignore
+/.jshintrc
+/dist
+npm-debug.log
+node_modules
+bower_components
+
+*.sw?
+.sw?
+
+# Typings
+*.ts
