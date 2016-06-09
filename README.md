@@ -5,6 +5,7 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
 1. Install package
    `npm install vizceral-react --save`
 2. import vizceral-react to start using
+
    ```js
    import Vizceral from 'vizceral-react';
    <Vizceral traffic={this.state.trafficData}
