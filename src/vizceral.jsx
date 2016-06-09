@@ -42,6 +42,10 @@ class Vizceral extends React.Component {
       this.vizceral.setFilters(nextProps.filters);
     }
 
+    if (!_.isEqual(nextProps.showLabels, this.props.showLabels)) {
+      this.vizceral.setOptions({ showLabels: nextProps.showLabels });
+    }
+
     if (!_.isEqual(nextProps.view, this.props.view)) {
       this.vizceral.setView(nextProps.view);
     }
@@ -90,6 +94,7 @@ Vizceral.propTypes = {
   regions: React.PropTypes.array,
   rendered: React.PropTypes.func,
   matchesFound: React.PropTypes.func,
+  showLabels: React.PropTypes.bool,
   styles: React.PropTypes.object,
   traffic: React.PropTypes.object,
   viewChanged: React.PropTypes.func
@@ -107,6 +112,7 @@ Vizceral.defaultProps = {
   regions: [],
   rendered: () => {},
   matchesFound: () => {},
+  showLabels: true,
   styles: {},
   traffic: {},
   viewChanged: () => {}
