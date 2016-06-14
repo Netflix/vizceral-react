@@ -1,3 +1,5 @@
+![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
+
 #vizceral-react
 This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
 
