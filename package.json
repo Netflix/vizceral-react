@@ -5,8 +5,9 @@
   "main": "dist/vizceral.js",
   "scripts": {
     "build": "npm run copy:css && webpack --bail && webpack --bail -p",
+    "doc": "./docs.js ./src/vizceral.jsx",
     "copy:css": "cpx ./src/vizceral.css ./dist",
-    "release": "release"
+    "release": "npm run doc && release"
   },
   "license": "Apache-2.0",
   "author": "Justin Reynolds <jreynolds@netflix.com>",
@@ -35,6 +36,7 @@
     "eslint-config-airbnb": "^9.0.1",
     "eslint-loader": "^1.3.0",
     "eslint-plugin-react": "^5.1.1",
+    "gulp-react-docs": "^0.1.1",
     "release-script": "^1.0.2",
     "webpack": "^1.13.1",
     "yargs": "^4.7.1"

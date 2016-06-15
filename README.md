@@ -1,6 +1,9 @@
+## Vizceral
+
+From [`src/vizceral.jsx`](src/vizceral.jsx)
+
 ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
 
-#vizceral-react
 This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
 
 ## Setup
@@ -25,3 +28,140 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
              match={this.state.searchTerm}
    />
    ```
+
+## Props
+
+#### excludedEdgeNodes
+
+```js
+// Default: []
+excludedEdgeNodes: Array
+```
+
+Array of edge nodes to exclude from the global view
+
+#### filters
+
+```js
+// Default: []
+filters: Array
+```
+
+Array of filter definitions and current values to filter out nodes and connections. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#filters
+
+#### graphsUpdated
+
+```js
+// Default: () => {}
+graphsUpdated: Function
+```
+
+Callback for when the graph objects are modified
+
+#### match
+
+```js
+// Default: ''
+match: String
+```
+
+A search string to highlight nodes that match
+
+#### matchesFound
+
+```js
+// Default: () => {}
+matchesFound: Function
+```
+
+Callback when nodes match the match string. The matches object { total, visible } is the only property.
+
+#### nodeFocused
+
+```js
+// Default: () => {}
+nodeFocused: Function
+```
+
+Callback for when a node is focused. The focused node is the only parameter.
+
+#### nodeHighlighted
+
+```js
+// Default: () => {}
+nodeHighlighted: Function
+```
+
+Callback for when a node is highlighted. The highlighted node is the only parameter.
+
+#### nodeUpdated
+
+```js
+// Default: () => {}
+nodeUpdated: 
+```
+
+#### regionContextSizeChanged
+
+```js
+// Default: () => {}
+regionContextSizeChanged: Function
+```
+
+Callback for when the global region context panel size changes. The updated dimensions is the only parameter.
+
+#### regions
+
+```js
+// Default: []
+regions: Array
+```
+
+The regions that are known to layout the graph before actual data is available.
+
+#### rendered
+
+```js
+// Default: () => {}
+rendered: Function
+```
+
+Callback when a graph has been rendered. The name of the graph that was rendered is the only property.
+
+#### showLabels
+
+```js
+// Default: true
+showLabels: Boolean
+```
+
+Whether or not to show labels on the nodes.
+
+#### styles
+
+```js
+// Default: {}
+styles: Object
+```
+
+Styles to override default properties.
+
+#### traffic
+
+```js
+// Default: {}
+traffic: Object
+```
+
+The traffic data. See github.com/Netflix/vizceral/DATAFORMATS.md for specification.
+
+#### viewChanged
+
+```js
+// Default: () => {}
+viewChanged: Function
+```
+
+Callback for when the view changed. The view array is the only property.
+
+<br><br>
