@@ -7,7 +7,7 @@
     "build": "npm run copy:css && webpack --bail && webpack --bail -p",
     "doc": "./docs.js ./src/vizceral.jsx",
     "copy:css": "cpx ./src/vizceral.css ./dist",
-    "release": "npm run doc && release"
+    "release": "release"
   },
   "license": "Apache-2.0",
   "author": "Justin Reynolds <jreynolds@netflix.com>",
