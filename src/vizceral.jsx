@@ -17,7 +17,6 @@ import VizceralGraph from 'vizceral';
  *    ```js
  *    import Vizceral from 'vizceral-react';
  *    <Vizceral traffic={this.state.trafficData}
- *              excludedEdgeNodes={this.state.excludedEdgeNodes}
  *              view={this.state.currentView}
  *              showLabels={this.state.displayOptions.showLabels}
  *              filters={this.state.filters}
@@ -26,7 +25,7 @@ import VizceralGraph from 'vizceral';
  *              nodeHighlighted={this.nodeHighlighted}
  *              rendered={this.rendered}
  *              nodeFocused={this.nodeFocused}
- *              regionContextSizeChanged={this.regionContextSizeChanged}
+ *              nodeContextSizeChanged={this.nodeContextSizeChanged}
  *              matchesFound={this.matchesFound}
  *              match={this.state.searchTerm}
  *    />
@@ -44,12 +43,11 @@ class Vizceral extends React.Component {
     this.vizceral.on('nodeFocused', this.props.nodeFocused);
     this.vizceral.on('rendered', this.props.rendered);
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
-    this.vizceral.on('regionContextSizeChanged', this.props.regionContextSizeChanged);
+    this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
     this.vizceral.on('graphsUpdated', this.props.graphsUpdated);
 
-    this.vizceral.updateRegions(this.props.regions);
-    this.vizceral.updateData(this.props.traffic, this.props.excludedEdgeNodes);
+    this.vizceral.updateData(this.props.traffic);
 
     if (!_.isEqual(this.props.view, Vizceral.defaultProps.view)) {
       this.vizceral.setView(this.props.view);
@@ -84,8 +82,8 @@ class Vizceral extends React.Component {
       this.vizceral.findNodes(nextProps.match);
     }
 
-    if (!this.props.traffic.regions || _.some(nextProps.traffic.regions, (data, region) => !this.props.traffic.regions[region] || this.props.traffic.regions[region].updated !== data.updated)) {
-      this.vizceral.updateData(nextProps.traffic, nextProps.excludedEdgeNodes);
+    if (!this.props.traffic.nodes || _.some(nextProps.traffic.nodes, (data, node) => !this.props.traffic.nodes[node] || this.props.traffic.nodes[node].updated !== data.updated)) {
+      this.vizceral.updateData(nextProps.traffic);
     }
   }
 
@@ -114,10 +112,6 @@ class Vizceral extends React.Component {
 
 Vizceral.propTypes = {
   /**
-   * Array of edge nodes to exclude from the global view
-   */
-  excludedEdgeNodes: React.PropTypes.array,
-  /**
    * Array of filter definitions and current values to filter out nodes and connections. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#filters
    */
   filters: React.PropTypes.array,
@@ -138,13 +132,9 @@ Vizceral.propTypes = {
    */
   nodeHighlighted: React.PropTypes.func,
   /**
-   * Callback for when the global region context panel size changes. The updated dimensions is the only parameter.
+   * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
-  regionContextSizeChanged: React.PropTypes.func,
-  /**
-   * The regions that are known to layout the graph before actual data is available.
-   */
-  regions: React.PropTypes.array,
+  nodeContextSizeChanged: React.PropTypes.func,
   /**
    * Callback when a graph has been rendered. The name of the graph that was rendered is the only property.
    */
@@ -172,15 +162,13 @@ Vizceral.propTypes = {
 };
 
 Vizceral.defaultProps = {
-  excludedEdgeNodes: [],
   filters: [],
   graphsUpdated: () => {},
   match: '',
   nodeFocused: () => {},
   nodeHighlighted: () => {},
   nodeUpdated: () => {},
-  regionContextSizeChanged: () => {},
-  regions: [],
+  nodeContextSizeChanged: () => {},
   rendered: () => {},
   matchesFound: () => {},
   showLabels: true,
