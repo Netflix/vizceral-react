@@ -14,7 +14,6 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
    ```js
    import Vizceral from 'vizceral-react';
    <Vizceral traffic={this.state.trafficData}
-             excludedEdgeNodes={this.state.excludedEdgeNodes}
              view={this.state.currentView}
              showLabels={this.state.displayOptions.showLabels}
              filters={this.state.filters}
@@ -23,22 +22,13 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
              nodeHighlighted={this.nodeHighlighted}
              rendered={this.rendered}
              nodeFocused={this.nodeFocused}
-             regionContextSizeChanged={this.regionContextSizeChanged}
+             nodeContextSizeChanged={this.nodeContextSizeChanged}
              matchesFound={this.matchesFound}
              match={this.state.searchTerm}
    />
    ```
 
 ## Props
-
-#### excludedEdgeNodes
-
-```js
-// Default: []
-excludedEdgeNodes: Array
-```
-
-Array of edge nodes to exclude from the global view
 
 #### filters
 
@@ -76,6 +66,15 @@ matchesFound: Function
 
 Callback when nodes match the match string. The matches object { total, visible } is the only property.
 
+#### nodeContextSizeChanged
+
+```js
+// Default: () => {}
+nodeContextSizeChanged: Function
+```
+
+Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
+
 #### nodeFocused
 
 ```js
@@ -100,24 +99,6 @@ Callback for when a node is highlighted. The highlighted node is the only parame
 // Default: () => {}
 nodeUpdated: 
 ```
-
-#### regionContextSizeChanged
-
-```js
-// Default: () => {}
-regionContextSizeChanged: Function
-```
-
-Callback for when the global region context panel size changes. The updated dimensions is the only parameter.
-
-#### regions
-
-```js
-// Default: []
-regions: Array
-```
-
-The regions that are known to layout the graph before actual data is available.
 
 #### rendered
 
