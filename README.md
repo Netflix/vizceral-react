@@ -25,10 +25,22 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
              nodeContextSizeChanged={this.nodeContextSizeChanged}
              matchesFound={this.matchesFound}
              match={this.state.searchTerm}
+             modes={this.state.modes}
+             definitions={this.state.definitions}
+             styles={styles}
    />
    ```
 
 ## Props
+
+#### definitions
+
+```js
+// Default: {}
+definitions: Object
+```
+
+Object map of definitions. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#definitions
 
 #### filters
 
@@ -65,6 +77,14 @@ matchesFound: Function
 ```
 
 Callback when nodes match the match string. The matches object { total, visible } is the only property.
+
+#### modes
+
+```js
+modes: Object
+```
+
+Map of modes to mode type, e.g. { detailedNode: 'volume' }
 
 #### nodeContextSizeChanged
 
