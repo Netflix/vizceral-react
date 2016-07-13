@@ -30,6 +30,7 @@ import VizceralGraph from 'vizceral/src/vizceral';
  *              match={this.state.searchTerm}
  *              modes={this.state.modes}
  *              definitions={this.state.definitions}
+ *              styles={styles}
  *    />
  *    ```
  *
