@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import React from 'react';
-import VizceralGraph from 'vizceral';
+import VizceralGraph from 'vizceral/src/vizceral';
 
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
@@ -28,6 +28,8 @@ import VizceralGraph from 'vizceral';
  *              nodeContextSizeChanged={this.nodeContextSizeChanged}
  *              matchesFound={this.matchesFound}
  *              match={this.state.searchTerm}
+ *              modes={this.state.modes}
+ *              definitions={this.state.definitions}
  *    />
  *    ```
  *
@@ -57,6 +59,10 @@ class Vizceral extends React.Component {
       this.vizceral.setFilters(this.props.filters);
     }
 
+    if (!_.isEqual(this.props.definitions, Vizceral.defaultProps.definitions)) {
+      this.vizceral.updateDefinitions(this.props.definitions);
+    }
+
     this.vizceral.animate();
     this.vizceral.updateBoundingRectCache();
   }
@@ -76,6 +82,14 @@ class Vizceral extends React.Component {
 
     if (!_.isEqual(nextProps.view, this.props.view)) {
       this.vizceral.setView(nextProps.view);
+    }
+
+    if (!_.isEqual(nextProps.modes, this.props.modes)) {
+      this.vizceral.setModes(nextProps.modes);
+    }
+
+    if (!_.isEqual(nextProps.definitions, this.props.definitions)) {
+      this.vizceral.updateDefinitions(nextProps.definitions);
     }
 
     if (nextProps.match !== this.props.match) {
@@ -112,6 +126,10 @@ class Vizceral extends React.Component {
 
 Vizceral.propTypes = {
   /**
+   * Object map of definitions. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#definitions
+   */
+  definitions: React.PropTypes.object,
+  /**
    * Array of filter definitions and current values to filter out nodes and connections. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#filters
    */
   filters: React.PropTypes.array,
@@ -123,6 +141,10 @@ Vizceral.propTypes = {
    * A search string to highlight nodes that match
    */
   match: React.PropTypes.string,
+  /**
+   * Map of modes to mode type, e.g. { detailedNode: 'volume' }
+   */
+  modes: React.PropTypes.object,
   /**
    * Callback for when a node is focused. The focused node is the only parameter.
    */
@@ -162,6 +184,7 @@ Vizceral.propTypes = {
 };
 
 Vizceral.defaultProps = {
+  definitions: {},
   filters: [],
   graphsUpdated: () => {},
   match: '',
