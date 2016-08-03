@@ -40,7 +40,7 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
 definitions: Object
 ```
 
-Object map of definitions. Refer to https://github.com/Netflix/vizceral/DATAFORMATS.md#definitions
+Object map of definitions. Refer to https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#definitions
 
 #### filters
 
@@ -49,7 +49,7 @@ Object map of definitions. Refer to https://github.com/Netflix/vizceral/DATAFORM
 filters: Array
 ```
 
-Array of filter definitions and current values to filter out nodes and connections. Refer to https://github.com/Netflix/vizceral/DATAFORMATS.md#filters
+Array of filter definitions and current values to filter out nodes and connections. Refer to https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#filters
 
 #### graphsUpdated
 
@@ -154,7 +154,7 @@ Styles to override default properties.
 traffic: Object
 ```
 
-The traffic data. See https://github.com/Netflix/vizceral/DATAFORMATS.md for specification.
+The traffic data. See https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md for specification.
 
 #### viewChanged
 
