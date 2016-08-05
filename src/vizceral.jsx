@@ -1,6 +1,6 @@
 'use strict';
 
-import _ from 'lodash';
+import { isEqual, some } from 'lodash';
 import React from 'react';
 import VizceralGraph from 'vizceral';
 
@@ -52,15 +52,15 @@ class Vizceral extends React.Component {
 
     this.vizceral.updateData(this.props.traffic);
 
-    if (!_.isEqual(this.props.view, Vizceral.defaultProps.view)) {
+    if (!isEqual(this.props.view, Vizceral.defaultProps.view)) {
       this.vizceral.setView(this.props.view);
     }
 
-    if (!_.isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
+    if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
     }
 
-    if (!_.isEqual(this.props.definitions, Vizceral.defaultProps.definitions)) {
+    if (!isEqual(this.props.definitions, Vizceral.defaultProps.definitions)) {
       this.vizceral.updateDefinitions(this.props.definitions);
     }
 
@@ -69,27 +69,27 @@ class Vizceral extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!_.isEqual(nextProps.styles, this.props.styles)) {
+    if (!isEqual(nextProps.styles, this.props.styles)) {
       this.updateStyles(nextProps.styles);
     }
 
-    if (!_.isEqual(nextProps.filters, this.props.filters)) {
+    if (!isEqual(nextProps.filters, this.props.filters)) {
       this.vizceral.setFilters(nextProps.filters);
     }
 
-    if (!_.isEqual(nextProps.showLabels, this.props.showLabels)) {
+    if (!isEqual(nextProps.showLabels, this.props.showLabels)) {
       this.vizceral.setOptions({ showLabels: nextProps.showLabels });
     }
 
-    if (!_.isEqual(nextProps.view, this.props.view)) {
+    if (!isEqual(nextProps.view, this.props.view)) {
       this.vizceral.setView(nextProps.view);
     }
 
-    if (!_.isEqual(nextProps.modes, this.props.modes)) {
+    if (!isEqual(nextProps.modes, this.props.modes)) {
       this.vizceral.setModes(nextProps.modes);
     }
 
-    if (!_.isEqual(nextProps.definitions, this.props.definitions)) {
+    if (!isEqual(nextProps.definitions, this.props.definitions)) {
       this.vizceral.updateDefinitions(nextProps.definitions);
     }
 
@@ -97,7 +97,7 @@ class Vizceral extends React.Component {
       this.vizceral.findNodes(nextProps.match);
     }
 
-    if (!this.props.traffic.nodes || _.some(nextProps.traffic.nodes, (data, node) => !this.props.traffic.nodes[node] || this.props.traffic.nodes[node].updated !== data.updated)) {
+    if (!this.props.traffic.nodes || some(nextProps.traffic.nodes, (data, node) => !this.props.traffic.nodes[node] || this.props.traffic.nodes[node].updated !== data.updated)) {
       this.vizceral.updateData(nextProps.traffic);
     }
   }
@@ -127,11 +127,12 @@ class Vizceral extends React.Component {
 
 Vizceral.propTypes = {
   /**
-   * Object map of definitions. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#definitions
+   * Object map of definitions. Refer to [github.com/Netflix/vizceral/DATAFORMATS.md#definitions](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#definitions)
    */
   definitions: React.PropTypes.object,
   /**
-   * Array of filter definitions and current values to filter out nodes and connections. Refer to github.com/Netflix/vizceral/DATAFORMATS.md#filters
+   * Array of filter definitions and current values to filter out nodes and connections. Refer to
+   * [github.com/Netflix/vizceral/DATAFORMATS.md#filters](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#filters)
    */
   filters: React.PropTypes.array,
   /**
@@ -175,7 +176,7 @@ Vizceral.propTypes = {
    */
   styles: React.PropTypes.object,
   /**
-   * The traffic data. See github.com/Netflix/vizceral/DATAFORMATS.md for specification.
+   * The traffic data. See [github.com/Netflix/vizceral/DATAFORMATS.md](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md) for specification.
    */
   traffic: React.PropTypes.object,
   /**
