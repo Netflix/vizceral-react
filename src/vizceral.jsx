@@ -81,8 +81,9 @@ class Vizceral extends React.Component {
       this.vizceral.setOptions({ showLabels: nextProps.showLabels });
     }
 
-    if (!isEqual(nextProps.view, this.props.view)) {
-      this.vizceral.setView(nextProps.view);
+    if (!isEqual(nextProps.view, this.props.view) ||
+        !isEqual(nextProps.nodeToHighlight, this.props.nodeToHighlight)) {
+      this.vizceral.setView(nextProps.view, nextProps.nodeToHighlight);
     }
 
     if (!isEqual(nextProps.modes, this.props.modes)) {
