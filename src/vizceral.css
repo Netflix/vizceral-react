@@ -5,7 +5,7 @@
   height: 100%;
 }
 
-.vizceral .connection-notice {
+.vizceral .vizceral-notice {
   display: block;
   position: absolute;
   padding: 0 3px;
@@ -18,18 +18,18 @@
   color: grey;
 }
 
-.vizceral .connection-notice ul {
+.vizceral .vizceral-notice ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.vizceral .connection-notice > ul > li {
+.vizceral .vizceral-notice > ul > li {
   line-height: 12px;
   padding-top: 3px;
   padding-bottom: 3px;
 }
 
-.vizceral .connection-notice .subtitle {
+.vizceral .vizceral-notice .subtitle {
   font-weight: 900;
 }

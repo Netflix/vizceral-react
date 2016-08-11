@@ -111,7 +111,7 @@ class Vizceral extends React.Component {
     return (
       <div className="vizceral">
         <canvas style={{ width: '100%', height: '100%' }} ref="vizCanvas"/>
-        <div className="connection-notice"><ul></ul></div>
+        <div className="vizceral-notice"></div>
       </div>
     );
   }
