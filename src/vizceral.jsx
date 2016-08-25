@@ -50,12 +50,6 @@ class Vizceral extends React.Component {
     this.vizceral.on('matchesFound', this.props.matchesFound);
     this.vizceral.on('graphsUpdated', this.props.graphsUpdated);
 
-    this.vizceral.updateData(this.props.traffic);
-
-    if (!isEqual(this.props.view, Vizceral.defaultProps.view)) {
-      this.vizceral.setView(this.props.view);
-    }
-
     if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
     }
@@ -64,13 +58,27 @@ class Vizceral extends React.Component {
       this.vizceral.updateDefinitions(this.props.definitions);
     }
 
-    this.vizceral.animate();
-    this.vizceral.updateBoundingRectCache();
+    // Finish the current call stack before updating the view.
+    // If vizceral-react was passed data directly without any asynchronous
+    // calls to retrieve the data, the initially loaded graph would not
+    // animate properly.
+    setTimeout(() => {
+      this.vizceral.setView(this.props.view || Vizceral.defaultProps.view);
+      this.vizceral.updateData(this.props.traffic);
+
+      this.vizceral.animate();
+      this.vizceral.updateBoundingRectCache();
+    }, 0);
   }
 
   componentWillReceiveProps (nextProps) {
     if (!isEqual(nextProps.styles, this.props.styles)) {
       this.updateStyles(nextProps.styles);
+    }
+
+    if (!isEqual(nextProps.view, this.props.view) ||
+        !isEqual(nextProps.nodeToHighlight, this.props.nodeToHighlight)) {
+      this.vizceral.setView(nextProps.view, nextProps.nodeToHighlight);
     }
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
@@ -79,11 +87,6 @@ class Vizceral extends React.Component {
 
     if (!isEqual(nextProps.showLabels, this.props.showLabels)) {
       this.vizceral.setOptions({ showLabels: nextProps.showLabels });
-    }
-
-    if (!isEqual(nextProps.view, this.props.view) ||
-        !isEqual(nextProps.nodeToHighlight, this.props.nodeToHighlight)) {
-      this.vizceral.setView(nextProps.view, nextProps.nodeToHighlight);
     }
 
     if (!isEqual(nextProps.modes, this.props.modes)) {
@@ -200,7 +203,8 @@ Vizceral.defaultProps = {
   showLabels: true,
   styles: {},
   traffic: {},
-  viewChanged: () => {}
+  viewChanged: () => {},
+  view: []
 };
 
 export default Vizceral;
