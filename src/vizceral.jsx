@@ -2,7 +2,7 @@
 
 import { isEqual, some } from 'lodash';
 import React from 'react';
-import VizceralGraph from 'vizceral';
+import VizceralGraph from 'vizceral/src/vizceral.js';
 
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
@@ -22,7 +22,7 @@ import VizceralGraph from 'vizceral';
  *              filters={this.state.filters}
  *              graphsUpdated={this.graphsUpdated}
  *              viewChanged={this.viewChanged}
- *              nodeHighlighted={this.nodeHighlighted}
+ *              objectHighlighted={this.objectHighlighted}
  *              rendered={this.rendered}
  *              nodeFocused={this.nodeFocused}
  *              nodeContextSizeChanged={this.nodeContextSizeChanged}
@@ -42,7 +42,7 @@ class Vizceral extends React.Component {
     this.updateStyles(this.props.styles);
 
     this.vizceral.on('viewChanged', this.props.viewChanged);
-    this.vizceral.on('nodeHighlighted', this.props.nodeHighlighted);
+    this.vizceral.on('objectHighlighted', this.props.objectHighlighted);
     this.vizceral.on('nodeFocused', this.props.nodeFocused);
     this.vizceral.on('rendered', this.props.rendered);
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
@@ -77,8 +77,8 @@ class Vizceral extends React.Component {
     }
 
     if (!isEqual(nextProps.view, this.props.view) ||
-        !isEqual(nextProps.nodeToHighlight, this.props.nodeToHighlight)) {
-      this.vizceral.setView(nextProps.view, nextProps.nodeToHighlight);
+        !isEqual(nextProps.objectToHighlight, this.props.objectToHighlight)) {
+      this.vizceral.setView(nextProps.view, nextProps.objectToHighlight);
     }
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
@@ -131,6 +131,10 @@ class Vizceral extends React.Component {
 
 Vizceral.propTypes = {
   /**
+   * Callback for when a connection is highlighted. The highlighted connection is the only parameter.
+   */
+  connectionHighlighted: React.PropTypes.func,
+  /**
    * Object map of definitions. Refer to [github.com/Netflix/vizceral/DATAFORMATS.md#definitions](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#definitions)
    */
   definitions: React.PropTypes.object,
@@ -156,7 +160,8 @@ Vizceral.propTypes = {
    */
   nodeFocused: React.PropTypes.func,
   /**
-   * Callback for when a node is highlighted. The highlighted node is the only parameter.
+   * Callback for when an object is highlighted. The highlighted object is the only parameter.
+   * `object.type` will be either 'node' or 'connection'
    */
   nodeHighlighted: React.PropTypes.func,
   /**
@@ -190,6 +195,7 @@ Vizceral.propTypes = {
 };
 
 Vizceral.defaultProps = {
+  connectionHighlighted: () => {},
   definitions: {},
   filters: [],
   graphsUpdated: () => {},

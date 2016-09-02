@@ -19,7 +19,7 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
              filters={this.state.filters}
              graphsUpdated={this.graphsUpdated}
              viewChanged={this.viewChanged}
-             nodeHighlighted={this.nodeHighlighted}
+             objectHighlighted={this.objectHighlighted}
              rendered={this.rendered}
              nodeFocused={this.nodeFocused}
              nodeContextSizeChanged={this.nodeContextSizeChanged}
@@ -32,6 +32,15 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
    ```
 
 ## Props
+
+#### connectionHighlighted
+
+```js
+// Default: () => {}
+connectionHighlighted: Function
+```
+
+Callback for when a connection is highlighted. The highlighted connection is the only parameter.
 
 #### definitions
 
@@ -112,7 +121,8 @@ Callback for when a node is focused. The focused node is the only parameter.
 nodeHighlighted: Function
 ```
 
-Callback for when a node is highlighted. The highlighted node is the only parameter.
+Callback for when an object is highlighted. The highlighted object is the only parameter.
+`object.type` will be either 'node' or 'connection'
 
 #### nodeUpdated
 
@@ -156,6 +166,13 @@ traffic: Object
 ```
 
 The traffic data. See [github.com/Netflix/vizceral/DATAFORMATS.md](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md) for specification.
+
+#### view
+
+```js
+// Default: []
+view: 
+```
 
 #### viewChanged
 
