@@ -1,5 +1,4 @@
 'use strict';
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
 var yargs = require('yargs');
@@ -26,10 +25,7 @@ var config = {
       {
         test: /\.jsx?$/,
         loader: 'babel',
-        exclude: /node_modules/,
-        query: {
-          plugins: ['lodash']
-        }
+        exclude: /node_modules/
       }
     ]
   },
@@ -43,9 +39,6 @@ var config = {
       },
       vizceral: 'vizceral'
     }
-  ],
-  plugins: [
-    new LodashModuleReplacementPlugin
   ]
 
 };
