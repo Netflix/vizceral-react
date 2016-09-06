@@ -2,7 +2,7 @@
 
 import { isEqual, some } from 'lodash';
 import React from 'react';
-import VizceralGraph from 'vizceral/src/vizceral.js';
+import VizceralGraph from 'vizceral';
 
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
