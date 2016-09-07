@@ -63,7 +63,7 @@ class Vizceral extends React.Component {
     // calls to retrieve the data, the initially loaded graph would not
     // animate properly.
     setTimeout(() => {
-      this.vizceral.setView(this.props.view || Vizceral.defaultProps.view);
+      this.vizceral.setView(this.props.view || Vizceral.defaultProps.view, this.props.objectToHighlight);
       this.vizceral.updateData(this.props.traffic);
 
       this.vizceral.animate();
