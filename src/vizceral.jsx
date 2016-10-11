@@ -1,8 +1,8 @@
 'use strict';
 
 import { isEqual, some } from 'lodash';
-import React from 'react';
-import VizceralGraph from 'vizceral/src/vizceral.js';
+import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
+import VizceralGraph from 'vizceral';
 
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
@@ -110,6 +110,7 @@ class Vizceral extends React.Component {
     delete this.vizceral;
   }
 
+  /* eslint-disable class-methods-use-this */
   render () {
     return (
       <div className="vizceral">
@@ -118,6 +119,7 @@ class Vizceral extends React.Component {
       </div>
     );
   }
+  /* eslint-enable class-methods-use-this */
 
   updateStyles (styles) {
     const styleNames = this.vizceral.getStyles();

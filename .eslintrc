@@ -21,6 +21,7 @@
     "new-cap": 0,
     "comma-dangle": 0,
     "func-names": 0,
+    "import/extensions": [1, "never"],
     "no-var": 1,
     "space-before-function-paren": [1, "always"],
     "vars-on-top": 0,
