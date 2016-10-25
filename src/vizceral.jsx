@@ -20,11 +20,8 @@ import VizceralGraph from 'vizceral';
  *              view={this.state.currentView}
  *              showLabels={this.state.displayOptions.showLabels}
  *              filters={this.state.filters}
- *              graphsUpdated={this.graphsUpdated}
  *              viewChanged={this.viewChanged}
  *              objectHighlighted={this.objectHighlighted}
- *              rendered={this.rendered}
- *              nodeFocused={this.nodeFocused}
  *              nodeContextSizeChanged={this.nodeContextSizeChanged}
  *              matchesFound={this.matchesFound}
  *              match={this.state.searchTerm}
@@ -43,12 +40,9 @@ class Vizceral extends React.Component {
 
     this.vizceral.on('viewChanged', this.props.viewChanged);
     this.vizceral.on('objectHighlighted', this.props.objectHighlighted);
-    this.vizceral.on('nodeFocused', this.props.nodeFocused);
-    this.vizceral.on('rendered', this.props.rendered);
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
     this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
-    this.vizceral.on('graphsUpdated', this.props.graphsUpdated);
 
     if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
@@ -146,10 +140,6 @@ Vizceral.propTypes = {
    */
   filters: React.PropTypes.array,
   /**
-   * Callback for when the graph objects are modified
-   */
-  graphsUpdated: React.PropTypes.func,
-  /**
    * A search string to highlight nodes that match
    */
   match: React.PropTypes.string,
@@ -157,10 +147,6 @@ Vizceral.propTypes = {
    * Map of modes to mode type, e.g. { detailedNode: 'volume' }
    */
   modes: React.PropTypes.object,
-  /**
-   * Callback for when a node is focused. The focused node is the only parameter.
-   */
-  nodeFocused: React.PropTypes.func,
   /**
    * Callback for when an object is highlighted. The highlighted object is the only parameter.
    * `object.type` will be either 'node' or 'connection'
@@ -170,10 +156,6 @@ Vizceral.propTypes = {
    * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
   nodeContextSizeChanged: React.PropTypes.func,
-  /**
-   * Callback when a graph has been rendered. The name of the graph that was rendered is the only property.
-   */
-  rendered: React.PropTypes.func,
   /**
    * Callback when nodes match the match string. The matches object { total, visible } is the only property.
    */
@@ -200,13 +182,10 @@ Vizceral.defaultProps = {
   connectionHighlighted: () => {},
   definitions: {},
   filters: [],
-  graphsUpdated: () => {},
   match: '',
-  nodeFocused: () => {},
   nodeHighlighted: () => {},
   nodeUpdated: () => {},
   nodeContextSizeChanged: () => {},
-  rendered: () => {},
   matchesFound: () => {},
   showLabels: true,
   styles: {},
