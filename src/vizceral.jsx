@@ -4,6 +4,24 @@ import { isEqual, some } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
 import VizceralGraph from 'vizceral';
 
+
+function getPerformanceNow() {
+  let g = window;
+  if (g != null) {
+    let perf = g.performance;
+    if (perf != null) {
+      try {
+        let perfNow = perf.now();
+        if (typeof perfNow === "number") {
+          return perfNow;
+        }
+      } catch (e) {
+      }
+    }
+  }
+  return null;
+}
+
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
  *
@@ -19,6 +37,7 @@ import VizceralGraph from 'vizceral';
  *    <Vizceral traffic={this.state.trafficData}
  *              view={this.state.currentView}
  *              showLabels={this.state.displayOptions.showLabels}
+ *              physicsOptions={this.state.physicsOptions}
  *              filters={this.state.filters}
  *              graphsUpdated={this.graphsUpdated}
  *              viewChanged={this.viewChanged}
@@ -65,8 +84,8 @@ class Vizceral extends React.Component {
     setTimeout(() => {
       this.vizceral.setView(this.props.view || Vizceral.defaultProps.view, this.props.objectToHighlight);
       this.vizceral.updateData(this.props.traffic);
-
-      this.vizceral.animate();
+      let perfNow = getPerformanceNow();
+      this.vizceral.animate(perfNow === null ? 0 : perfNow);
       this.vizceral.updateBoundingRectCache();
     }, 0);
   }
@@ -84,11 +103,9 @@ class Vizceral extends React.Component {
     if (!isEqual(nextProps.filters, this.props.filters)) {
       this.vizceral.setFilters(nextProps.filters);
     }
-
     if (!isEqual(nextProps.showLabels, this.props.showLabels)) {
-      this.vizceral.setOptions({ showLabels: nextProps.showLabels });
+      this.vizceral.setOptions({ showLabels: this.props.showLabels });;
     }
-
     if (!isEqual(nextProps.modes, this.props.modes)) {
       this.vizceral.setModes(nextProps.modes);
     }
@@ -200,18 +217,18 @@ Vizceral.defaultProps = {
   connectionHighlighted: () => {},
   definitions: {},
   filters: [],
-  graphsUpdated: () => {},
+  graphsUpdated: () => undefined,
   match: '',
-  nodeFocused: () => {},
-  nodeHighlighted: () => {},
-  nodeUpdated: () => {},
-  nodeContextSizeChanged: () => {},
-  rendered: () => {},
-  matchesFound: () => {},
+  nodeFocused: () => undefined,
+  nodeHighlighted: () => undefined,
+  nodeUpdated: () => undefined,
+  nodeContextSizeChanged: () => undefined,
+  rendered: () => undefined,
+  matchesFound: () => undefined,
   showLabels: true,
   styles: {},
   traffic: {},
-  viewChanged: () => {},
+  viewChanged: () => undefined,
   view: []
 };
 
