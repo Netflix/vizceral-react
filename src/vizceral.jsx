@@ -104,7 +104,7 @@ class Vizceral extends React.Component {
       this.vizceral.setFilters(nextProps.filters);
     }
     if (!isEqual(nextProps.showLabels, this.props.showLabels)) {
-      this.vizceral.setOptions({ showLabels: nextProps.showLabels });;
+      this.vizceral.setOptions({ showLabels: nextProps.showLabels });
     }
     if (!isEqual(nextProps.modes, this.props.modes)) {
       this.vizceral.setModes(nextProps.modes);
