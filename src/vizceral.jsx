@@ -95,7 +95,9 @@ class Vizceral extends React.Component {
       this.vizceral.findNodes(nextProps.match);
     }
 
-    if (!this.props.traffic.nodes || some(nextProps.traffic.nodes, (data, node) => !this.props.traffic.nodes[node] || this.props.traffic.nodes[node].updated !== data.updated)) {
+    if (!this.props.traffic.nodes
+        || !nextProps.traffic.updated // If the data does not have an updated field, just assume it's modified
+        || nextProps.traffic.updated > this.props.traffic.updated) {
       this.vizceral.updateData(nextProps.traffic);
     }
   }
