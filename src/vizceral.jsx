@@ -43,6 +43,7 @@ class Vizceral extends React.Component {
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
     this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
+    this.vizceral.on('viewUpdated', this.props.viewUpdated);
 
     if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
@@ -95,8 +96,10 @@ class Vizceral extends React.Component {
       this.vizceral.findNodes(nextProps.match);
     }
 
+    // If the data does not have an updated field, just assume it's modified now
+    // This also solves the case between data updates
+    nextProps.traffic.updated = nextProps.traffic.updated || Date.now();
     if (!this.props.traffic.nodes
-        || !nextProps.traffic.updated // If the data does not have an updated field, just assume it's modified
         || nextProps.traffic.updated > this.props.traffic.updated) {
       this.vizceral.updateData(nextProps.traffic);
     }
@@ -177,7 +180,11 @@ Vizceral.propTypes = {
   /**
    * Callback for when the view changed. The view array is the only property.
    */
-  viewChanged: React.PropTypes.func
+  viewChanged: React.PropTypes.func,
+  /**
+   * Callback for when the current view is updated.
+   */
+  viewUpdated: React.PropTypes.func
 };
 
 Vizceral.defaultProps = {
@@ -193,6 +200,7 @@ Vizceral.defaultProps = {
   styles: {},
   traffic: {},
   viewChanged: () => {},
+  viewUpdated: () => {},
   view: []
 };
 

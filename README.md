@@ -153,4 +153,13 @@ viewChanged: Function
 
 Callback for when the view changed. The view array is the only property.
 
+#### viewUpdated
+
+```js
+// Default: () => {}
+viewUpdated: Function
+```
+
+Callback for when the current view is updated.
+
 <br><br>
