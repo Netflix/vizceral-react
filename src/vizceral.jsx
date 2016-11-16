@@ -4,6 +4,18 @@ import { isEqual, some } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
 import VizceralGraph from 'vizceral';
 
+const Console = console;
+const Double_nan = 0/0;
+const hasOwnPropFunc = Object.prototype.hasOwnProperty;
+const isFiniteAfterCoerceToNumber = isFinite;
+
+function isArray(value) {
+  return Object.prototype.toString.call(value) === "[object Array]";
+}
+
+function isFiniteDouble(value) {
+  return typeof value === "number" && isFiniteAfterCoerceToNumber(value);
+}
 
 function getPerformanceNow() {
   let g = window;
@@ -117,9 +129,78 @@ class Vizceral extends React.Component {
     if (nextProps.match !== this.props.match) {
       this.vizceral.findNodes(nextProps.match);
     }
-
-    if (!this.props.traffic.nodes || some(nextProps.traffic.nodes, (data, node) => !this.props.traffic.nodes[node] || this.props.traffic.nodes[node].updated !== data.updated)) {
-      this.vizceral.updateData(nextProps.traffic);
+    let traffic1 = hasOwnPropFunc.call(this.props, "traffic") ? this.props.traffic : null;
+    let traffic2 = hasOwnPropFunc.call(nextProps, "traffic") ? nextProps.traffic : null;
+    let fUpdateData = true;
+    let fError = false;
+    if (traffic1 != null || traffic2 != null) {
+      if (traffic1 != null && traffic2 != null) {
+        let nodes1 = hasOwnPropFunc.call(traffic1, "nodes") ? traffic1.nodes : [];
+        if (!isArray(nodes1)) {
+          Console.error("The current traffic data seems to have been corrupted because the root graph has a non-array 'nodes' property", traffic1);
+          fError = true;
+        }
+        let nodes2 = hasOwnPropFunc.call(traffic2, "nodes") ? traffic2.nodes : [];
+        if (!isArray(nodes2)) {
+          Console.error("The new traffic data seems to be invalid because the root graph has a non-array 'nodes' property", traffic2);
+          fError = true;
+        }
+        if (!fError) {
+          let n = nodes1.length;
+          if (n === nodes2.length) {
+            let nodeFromName2 = {};
+            for (let i = 0; i < n; i++) {
+              let node2 = nodes2[i];
+              if (!hasOwnPropFunc.call(node2, "name") || node2 == null || typeof node2.name !== "string") {
+                fError = true;
+                Console.error("The new traffic data seems to be invalid because the root graph has a node that has no string-typed name", traffic2, node2);
+                break;
+              }
+              nodeFromName2[node2.name] = node2;
+            }
+            if (!fError) {
+              fUpdateData = false;
+              for (let i = 0; i < n; i++) {
+                let node1 = nodes1[i];
+                if (!hasOwnPropFunc.call(node1, "name") || node1 == null || typeof node1.name !== "string") {
+                  Console.error("The current traffic data seems to have been corrupted because the root graph has a node that has no string-typed name", traffic1, node1);
+                  fError = true;
+                  break;
+                }
+                if (!hasOwnPropFunc.call(nodeFromName2, node1.name)) {
+                  fUpdateData = true;
+                  break;
+                }
+                if (node1.name === "INTERNET") {
+                  continue;
+                }
+                let node2 = nodeFromName2[node1.name];
+                let updated1 = hasOwnPropFunc.call(node1, "updated") ? node1.updated : Double_nan;
+                let updated2 = hasOwnPropFunc.call(node2, "updated") ? node2.updated : Double_nan;
+                if (!isFiniteDouble(updated1)) {
+                  Console.error("The current traffic data seems to have been corrupted because the root graph has a node that has no finite-numeric property named 'updated'", traffic1, node1);
+                  fError = true;
+                  break;
+                }
+                if (!isFiniteDouble(updated2)) {
+                  Console.error("The new traffic data seems to be invalid because the root graph has a node that has no finite-numeric property named 'updated'", traffic2, node2);
+                  fError = true;
+                  break;
+                }
+                if (updated1 !== updated2) {
+                  fUpdateData = true;
+                  break;
+                }
+              }
+            }
+          }
+        }
+      } 
+    } else {
+      fUpdateData = false;
+    }
+    if (!fError && fUpdateData) {
+      this.vizceral.updateData(traffic2);
     }
   }
 
