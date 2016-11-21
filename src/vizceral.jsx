@@ -51,11 +51,8 @@ function getPerformanceNow() {
  *              showLabels={this.state.displayOptions.showLabels}
  *              physicsOptions={this.state.physicsOptions}
  *              filters={this.state.filters}
- *              graphsUpdated={this.graphsUpdated}
  *              viewChanged={this.viewChanged}
  *              objectHighlighted={this.objectHighlighted}
- *              rendered={this.rendered}
- *              nodeFocused={this.nodeFocused}
  *              nodeContextSizeChanged={this.nodeContextSizeChanged}
  *              matchesFound={this.matchesFound}
  *              match={this.state.searchTerm}
@@ -74,12 +71,10 @@ class Vizceral extends React.Component {
 
     this.vizceral.on('viewChanged', this.props.viewChanged);
     this.vizceral.on('objectHighlighted', this.props.objectHighlighted);
-    this.vizceral.on('nodeFocused', this.props.nodeFocused);
-    this.vizceral.on('rendered', this.props.rendered);
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
     this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
-    this.vizceral.on('graphsUpdated', this.props.graphsUpdated);
+    this.vizceral.on('viewUpdated', this.props.viewUpdated);
 
     if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
@@ -129,77 +124,11 @@ class Vizceral extends React.Component {
     if (nextProps.match !== this.props.match) {
       this.vizceral.findNodes(nextProps.match);
     }
-    let traffic1 = hasOwnPropFunc.call(this.props, "traffic") ? this.props.traffic : null;
-    let traffic2 = hasOwnPropFunc.call(nextProps, "traffic") ? nextProps.traffic : null;
-    let fUpdateData = true;
-    let fError = false;
-    if (traffic1 != null || traffic2 != null) {
-      if (traffic1 != null && traffic2 != null) {
-        let nodes1 = hasOwnPropFunc.call(traffic1, "nodes") ? traffic1.nodes : [];
-        if (!isArray(nodes1)) {
-          Console.error("The current traffic data seems to have been corrupted because the root graph has a non-array 'nodes' property", traffic1);
-          fError = true;
-        }
-        let nodes2 = hasOwnPropFunc.call(traffic2, "nodes") ? traffic2.nodes : [];
-        if (!isArray(nodes2)) {
-          Console.error("The new traffic data seems to be invalid because the root graph has a non-array 'nodes' property", traffic2);
-          fError = true;
-        }
-        if (!fError) {
-          let n = nodes1.length;
-          if (n === nodes2.length) {
-            let nodeFromName2 = {};
-            for (let i = 0; i < n; i++) {
-              let node2 = nodes2[i];
-              if (!hasOwnPropFunc.call(node2, "name") || node2 == null || typeof node2.name !== "string") {
-                fError = true;
-                Console.error("The new traffic data seems to be invalid because the root graph has a node that has no string-typed name", traffic2, node2);
-                break;
-              }
-              nodeFromName2[node2.name] = node2;
-            }
-            if (!fError) {
-              fUpdateData = false;
-              for (let i = 0; i < n; i++) {
-                let node1 = nodes1[i];
-                if (!hasOwnPropFunc.call(node1, "name") || node1 == null || typeof node1.name !== "string") {
-                  Console.error("The current traffic data seems to have been corrupted because the root graph has a node that has no string-typed name", traffic1, node1);
-                  fError = true;
-                  break;
-                }
-                if (!hasOwnPropFunc.call(nodeFromName2, node1.name)) {
-                  fUpdateData = true;
-                  break;
-                }
-                if (node1.name === "INTERNET") {
-                  continue;
-                }
-                let node2 = nodeFromName2[node1.name];
-                let updated1 = hasOwnPropFunc.call(node1, "updated") ? node1.updated : Double_nan;
-                let updated2 = hasOwnPropFunc.call(node2, "updated") ? node2.updated : Double_nan;
-                if (!isFiniteDouble(updated1)) {
-                  Console.error("The current traffic data seems to have been corrupted because the root graph has a node that has no finite-numeric property named 'updated'", traffic1, node1);
-                  fError = true;
-                  break;
-                }
-                if (!isFiniteDouble(updated2)) {
-                  Console.error("The new traffic data seems to be invalid because the root graph has a node that has no finite-numeric property named 'updated'", traffic2, node2);
-                  fError = true;
-                  break;
-                }
-                if (updated1 !== updated2) {
-                  fUpdateData = true;
-                  break;
-                }
-              }
-            }
-          }
-        }
-      } 
-    } else {
-      fUpdateData = false;
-    }
-    if (!fError && fUpdateData) {
+    // If the data does not have an updated field, just assume it's modified now
+    // This also solves the case between data updates
+    nextProps.traffic.updated = nextProps.traffic.updated || Date.now();
+    if (!this.props.traffic.nodes
+        || nextProps.traffic.updated > this.props.traffic.updated) {
       this.vizceral.updateData(traffic2);
     }
   }
@@ -244,10 +173,6 @@ Vizceral.propTypes = {
    */
   filters: React.PropTypes.array,
   /**
-   * Callback for when the graph objects are modified
-   */
-  graphsUpdated: React.PropTypes.func,
-  /**
    * A search string to highlight nodes that match
    */
   match: React.PropTypes.string,
@@ -255,10 +180,6 @@ Vizceral.propTypes = {
    * Map of modes to mode type, e.g. { detailedNode: 'volume' }
    */
   modes: React.PropTypes.object,
-  /**
-   * Callback for when a node is focused. The focused node is the only parameter.
-   */
-  nodeFocused: React.PropTypes.func,
   /**
    * Callback for when an object is highlighted. The highlighted object is the only parameter.
    * `object.type` will be either 'node' or 'connection'
@@ -268,10 +189,6 @@ Vizceral.propTypes = {
    * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
   nodeContextSizeChanged: React.PropTypes.func,
-  /**
-   * Callback when a graph has been rendered. The name of the graph that was rendered is the only property.
-   */
-  rendered: React.PropTypes.func,
   /**
    * Callback when nodes match the match string. The matches object { total, visible } is the only property.
    */
@@ -291,25 +208,27 @@ Vizceral.propTypes = {
   /**
    * Callback for when the view changed. The view array is the only property.
    */
-  viewChanged: React.PropTypes.func
+  viewChanged: React.PropTypes.func,
+  /**
+   * Callback for when the current view is updated.
+   */
+  viewUpdated: React.PropTypes.func
 };
 
 Vizceral.defaultProps = {
   connectionHighlighted: () => {},
   definitions: {},
   filters: [],
-  graphsUpdated: () => {},
   match: '',
-  nodeFocused: () => {},
   nodeHighlighted: () => {},
   nodeUpdated: () => {},
   nodeContextSizeChanged: () => {},
-  rendered: () => {},
   matchesFound: () => {},
   showLabels: true,
   styles: {},
   traffic: {},
   viewChanged: () => {},
+  viewUpdated: () => {},
   view: []
 };
 
