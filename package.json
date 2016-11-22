@@ -48,6 +48,6 @@
   },
   "dependencies": {
     "lodash": "^4.16.4",
-    "vizceral": "~4.1.0"
+    "vizceral": "~4.2.0"
   }
 }
