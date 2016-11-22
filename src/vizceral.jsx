@@ -4,6 +4,23 @@ import { isEqual, some } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
 import VizceralGraph from 'vizceral';
 
+function getPerformanceNow() {
+  let g = window;
+  if (g != null) {
+    let perf = g.performance;
+    if (perf != null) {
+      try {
+        let perfNow = perf.now();
+        if (typeof perfNow === "number") {
+          return perfNow;
+        }
+      } catch (e) {
+      }
+    }
+  }
+  return null;
+}
+
 /**
  * ![](https://raw.githubusercontent.com/Netflix/vizceral/master/logo.png)
  *
@@ -19,6 +36,7 @@ import VizceralGraph from 'vizceral';
  *    <Vizceral traffic={this.state.trafficData}
  *              view={this.state.currentView}
  *              showLabels={this.state.displayOptions.showLabels}
+ *              physicsOptions={this.state.physicsOptions}
  *              filters={this.state.filters}
  *              viewChanged={this.viewChanged}
  *              objectHighlighted={this.objectHighlighted}
@@ -34,6 +52,7 @@ import VizceralGraph from 'vizceral';
  * ## Props
  */
 class Vizceral extends React.Component {
+
   componentDidMount () {
     this.vizceral = new VizceralGraph(this.refs.vizCanvas, this.props.targetFramerate);
     this.updateStyles(this.props.styles);
@@ -44,6 +63,13 @@ class Vizceral extends React.Component {
     this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
     this.vizceral.on('viewUpdated', this.props.viewUpdated);
+
+    // Pass our defaults to Vizceral in the case that it has different defaults.
+    this.vizceral.setOptions({
+      allowDraggingOfNodes: this.props.allowDraggingOfNodes,
+      showLabels: this.props.showLabels
+    });
+
 
     if (!isEqual(this.props.filters, Vizceral.defaultProps.filters)) {
       this.vizceral.setFilters(this.props.filters);
@@ -60,8 +86,8 @@ class Vizceral extends React.Component {
     setTimeout(() => {
       this.vizceral.setView(this.props.view || Vizceral.defaultProps.view, this.props.objectToHighlight);
       this.vizceral.updateData(this.props.traffic);
-
-      this.vizceral.animate();
+      let perfNow = getPerformanceNow();
+      this.vizceral.animate(perfNow === null ? 0 : perfNow);
       this.vizceral.updateBoundingRectCache();
     }, 0);
   }
@@ -70,7 +96,6 @@ class Vizceral extends React.Component {
     if (!isEqual(nextProps.styles, this.props.styles)) {
       this.updateStyles(nextProps.styles);
     }
-
     if (!isEqual(nextProps.view, this.props.view) ||
         !isEqual(nextProps.objectToHighlight, this.props.objectToHighlight)) {
       this.vizceral.setView(nextProps.view, nextProps.objectToHighlight);
@@ -79,11 +104,13 @@ class Vizceral extends React.Component {
     if (!isEqual(nextProps.filters, this.props.filters)) {
       this.vizceral.setFilters(nextProps.filters);
     }
-
-    if (!isEqual(nextProps.showLabels, this.props.showLabels)) {
-      this.vizceral.setOptions({ showLabels: nextProps.showLabels });
+    if (!isEqual(nextProps.showLabels, this.props.showLabels) ||
+        !isEqual(nextProps.allowDraggingOfNodes, this.props.allowDraggingOfNodes)) {
+      this.vizceral.setOptions({ 
+        allowDraggingOfNodes: nextProps.allowDraggingOfNodes,
+        showLabels: nextProps.showLabels
+      });
     }
-
     if (!isEqual(nextProps.modes, this.props.modes)) {
       this.vizceral.setModes(nextProps.modes);
     }
@@ -95,7 +122,6 @@ class Vizceral extends React.Component {
     if (nextProps.match !== this.props.match) {
       this.vizceral.findNodes(nextProps.match);
     }
-
     // If the data does not have an updated field, just assume it's modified now
     // This also solves the case between data updates
     nextProps.traffic.updated = nextProps.traffic.updated || Date.now();
@@ -170,6 +196,10 @@ Vizceral.propTypes = {
    */
   showLabels: React.PropTypes.bool,
   /**
+   * Nodes can be repositioned through dragging if and only if this is true.
+   */
+  allowDraggingOfNodes: React.PropTypes.bool,
+  /**
    * Styles to override default properties.
    */
   styles: React.PropTypes.object,
@@ -201,6 +231,7 @@ Vizceral.defaultProps = {
   nodeContextSizeChanged: () => {},
   matchesFound: () => {},
   showLabels: true,
+  allowDraggingOfNodes: false,
   styles: {},
   traffic: {},
   viewChanged: () => {},
