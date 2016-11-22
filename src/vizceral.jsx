@@ -35,7 +35,7 @@ import VizceralGraph from 'vizceral';
  */
 class Vizceral extends React.Component {
   componentDidMount () {
-    this.vizceral = new VizceralGraph(this.refs.vizCanvas);
+    this.vizceral = new VizceralGraph(this.refs.vizCanvas, this.props.targetFramerate);
     this.updateStyles(this.props.styles);
 
     this.vizceral.on('viewChanged', this.props.viewChanged);
@@ -184,7 +184,11 @@ Vizceral.propTypes = {
   /**
    * Callback for when the current view is updated.
    */
-  viewUpdated: React.PropTypes.func
+  viewUpdated: React.PropTypes.func,
+  /**
+  * Target framerate for rendering engine
+  */
+  targetFramerate: React.PropTypes.number
 };
 
 Vizceral.defaultProps = {
@@ -201,7 +205,8 @@ Vizceral.defaultProps = {
   traffic: {},
   viewChanged: () => {},
   viewUpdated: () => {},
-  view: []
+  view: [],
+  targetFramerate: null
 };
 
 export default Vizceral;
