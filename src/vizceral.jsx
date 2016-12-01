@@ -1,20 +1,21 @@
 'use strict';
 
-import { isEqual, some } from 'lodash';
+import { isEqual } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
 import VizceralGraph from 'vizceral';
 
 function getPerformanceNow() {
-  let g = window;
+  const g = window;
   if (g != null) {
-    let perf = g.performance;
+    const perf = g.performance;
     if (perf != null) {
       try {
-        let perfNow = perf.now();
-        if (typeof perfNow === "number") {
+        const perfNow = perf.now();
+        if (typeof perfNow === 'number') {
           return perfNow;
         }
       } catch (e) {
+        // do nothing
       }
     }
   }
@@ -86,7 +87,7 @@ class Vizceral extends React.Component {
     setTimeout(() => {
       this.vizceral.setView(this.props.view || Vizceral.defaultProps.view, this.props.objectToHighlight);
       this.vizceral.updateData(this.props.traffic);
-      let perfNow = getPerformanceNow();
+      const perfNow = getPerformanceNow();
       this.vizceral.animate(perfNow === null ? 0 : perfNow);
       this.vizceral.updateBoundingRectCache();
     }, 0);
@@ -106,7 +107,7 @@ class Vizceral extends React.Component {
     }
     if (!isEqual(nextProps.showLabels, this.props.showLabels) ||
         !isEqual(nextProps.allowDraggingOfNodes, this.props.allowDraggingOfNodes)) {
-      this.vizceral.setOptions({ 
+      this.vizceral.setOptions({
         allowDraggingOfNodes: nextProps.allowDraggingOfNodes,
         showLabels: nextProps.showLabels
       });
