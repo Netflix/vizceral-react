@@ -231,6 +231,7 @@ Vizceral.defaultProps = {
   nodeUpdated: () => {},
   nodeContextSizeChanged: () => {},
   matchesFound: () => {},
+  objectHighlighted: () => {},
   showLabels: true,
   allowDraggingOfNodes: false,
   styles: {},
