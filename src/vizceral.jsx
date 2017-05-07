@@ -163,12 +163,12 @@ Vizceral.propTypes = {
    */
   connectionHighlighted: React.PropTypes.func,
   /**
-   * Object map of definitions. Refer to [github.com/Netflix/vizceral/DATAFORMATS.md#definitions](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#definitions)
+   * Object map of definitions. Refer to [github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display](https://github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display)
    */
   definitions: React.PropTypes.object,
   /**
    * Array of filter definitions and current values to filter out nodes and connections. Refer to
-   * [github.com/Netflix/vizceral/DATAFORMATS.md#filters](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#filters)
+   * [github.com/Netflix/Vizceral/wiki/Configuration#filters](https://github.com/Netflix/Vizceral/wiki/Configuration#filters)
    */
   filters: React.PropTypes.array,
   /**
@@ -205,7 +205,7 @@ Vizceral.propTypes = {
    */
   styles: React.PropTypes.object,
   /**
-   * The traffic data. See [github.com/Netflix/vizceral/DATAFORMATS.md](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md) for specification.
+   * The traffic data. See [github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format](https://github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format) for specification.
    */
   traffic: React.PropTypes.object,
   /**

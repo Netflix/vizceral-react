@@ -16,6 +16,7 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
    <Vizceral traffic={this.state.trafficData}
              view={this.state.currentView}
              showLabels={this.state.displayOptions.showLabels}
+             physicsOptions={this.state.physicsOptions}
              filters={this.state.filters}
              viewChanged={this.viewChanged}
              objectHighlighted={this.objectHighlighted}
@@ -29,6 +30,15 @@ This is a react wrapper around [Vizceral](https://github.com/Netflix/vizceral).
    ```
 
 ## Props
+
+#### allowDraggingOfNodes
+
+```js
+// Default: false
+allowDraggingOfNodes: Boolean
+```
+
+Nodes can be repositioned through dragging if and only if this is true.
 
 #### connectionHighlighted
 
@@ -46,7 +56,7 @@ Callback for when a connection is highlighted. The highlighted connection is the
 definitions: Object
 ```
 
-Object map of definitions. Refer to [github.com/Netflix/vizceral/DATAFORMATS.md#definitions](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#definitions)
+Object map of definitions. Refer to [github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display](https://github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display)
 
 #### filters
 
@@ -56,7 +66,7 @@ filters: Array
 ```
 
 Array of filter definitions and current values to filter out nodes and connections. Refer to
-[github.com/Netflix/vizceral/DATAFORMATS.md#filters](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md#filters)
+[github.com/Netflix/Vizceral/wiki/Configuration#filters](https://github.com/Netflix/Vizceral/wiki/Configuration#filters)
 
 #### match
 
@@ -110,6 +120,13 @@ Callback for when an object is highlighted. The highlighted object is the only p
 nodeUpdated: 
 ```
 
+#### objectHighlighted
+
+```js
+// Default: () => {}
+objectHighlighted: 
+```
+
 #### showLabels
 
 ```js
@@ -128,6 +145,15 @@ styles: Object
 
 Styles to override default properties.
 
+#### targetFramerate
+
+```js
+// Default: null
+targetFramerate: Number
+```
+
+Target framerate for rendering engine
+
 #### traffic
 
 ```js
@@ -135,7 +161,7 @@ Styles to override default properties.
 traffic: Object
 ```
 
-The traffic data. See [github.com/Netflix/vizceral/DATAFORMATS.md](https://github.com/Netflix/vizceral/blob/master/DATAFORMATS.md) for specification.
+The traffic data. See [github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format](https://github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format) for specification.
 
 #### view
 
