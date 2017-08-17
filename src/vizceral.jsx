@@ -60,6 +60,7 @@ class Vizceral extends React.Component {
 
     this.vizceral.on('viewChanged', this.props.viewChanged);
     this.vizceral.on('objectHighlighted', this.props.objectHighlighted);
+    this.vizceral.on('objectHovered', this.props.objectHovered);
     this.vizceral.on('nodeUpdated', this.props.nodeUpdated);
     this.vizceral.on('nodeContextSizeChanged', this.props.nodeContextSizeChanged);
     this.vizceral.on('matchesFound', this.props.matchesFound);
@@ -183,7 +184,11 @@ Vizceral.propTypes = {
    * Callback for when an object is highlighted. The highlighted object is the only parameter.
    * `object.type` will be either 'node' or 'connection'
    */
-  nodeHighlighted: React.PropTypes.func,
+  objectHighlighted: React.PropTypes.func,
+  /**
+   * Pass in an object to highlight
+   */
+  objectToHighlight: React.PropTypes.object,
   /**
    * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
@@ -232,6 +237,8 @@ Vizceral.defaultProps = {
   nodeContextSizeChanged: () => {},
   matchesFound: () => {},
   objectHighlighted: () => {},
+  objectHovered: () => {},
+  objectToHighlight: null,
   showLabels: true,
   allowDraggingOfNodes: false,
   styles: {},
