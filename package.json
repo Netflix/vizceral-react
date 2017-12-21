@@ -48,6 +48,6 @@
   },
   "dependencies": {
     "lodash": "^4.16.4",
-    "vizceral": "~4.5.5"
+    "vizceral": "amplify-education/vizceral"
   }
 }
