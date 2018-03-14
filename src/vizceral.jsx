@@ -2,6 +2,7 @@
 
 import { isEqual } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
+import PropTypes from 'prop-types'
 import VizceralGraph from 'vizceral';
 
 function getPerformanceNow() {
@@ -162,69 +163,69 @@ Vizceral.propTypes = {
   /**
    * Callback for when a connection is highlighted. The highlighted connection is the only parameter.
    */
-  connectionHighlighted: React.PropTypes.func,
+  connectionHighlighted: PropTypes.func,
   /**
    * Object map of definitions. Refer to [github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display](https://github.com/Netflix/Vizceral/wiki/Configuration#definitions-for-data-to-display)
    */
-  definitions: React.PropTypes.object,
+  definitions: PropTypes.object,
   /**
    * Array of filter definitions and current values to filter out nodes and connections. Refer to
    * [github.com/Netflix/Vizceral/wiki/Configuration#filters](https://github.com/Netflix/Vizceral/wiki/Configuration#filters)
    */
-  filters: React.PropTypes.array,
+  filters: PropTypes.array,
   /**
    * A search string to highlight nodes that match
    */
-  match: React.PropTypes.string,
+  match: PropTypes.string,
   /**
    * Map of modes to mode type, e.g. { detailedNode: 'volume' }
    */
-  modes: React.PropTypes.object,
+  modes: PropTypes.object,
   /**
    * Callback for when an object is highlighted. The highlighted object is the only parameter.
    * `object.type` will be either 'node' or 'connection'
    */
-  objectHighlighted: React.PropTypes.func,
+  objectHighlighted: PropTypes.func,
   /**
    * Pass in an object to highlight
    */
-  objectToHighlight: React.PropTypes.object,
+  objectToHighlight: PropTypes.object,
   /**
    * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
-  nodeContextSizeChanged: React.PropTypes.func,
+  nodeContextSizeChanged: PropTypes.func,
   /**
    * Callback when nodes match the match string. The matches object { total, visible } is the only property.
    */
-  matchesFound: React.PropTypes.func,
+  matchesFound: PropTypes.func,
   /**
    * Whether or not to show labels on the nodes.
    */
-  showLabels: React.PropTypes.bool,
+  showLabels: PropTypes.bool,
   /**
    * Nodes can be repositioned through dragging if and only if this is true.
    */
-  allowDraggingOfNodes: React.PropTypes.bool,
+  allowDraggingOfNodes: PropTypes.bool,
   /**
    * Styles to override default properties.
    */
-  styles: React.PropTypes.object,
+  styles: PropTypes.object,
   /**
    * The traffic data. See [github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format](https://github.com/Netflix/Vizceral/wiki/How-to-Use#graph-data-format) for specification.
    */
-  traffic: React.PropTypes.object,
+  traffic: PropTypes.object,
   /**
    * Callback for when the view changed. The view array is the only property.
    */
-  viewChanged: React.PropTypes.func,
+  viewChanged: PropTypes.func,
   /**
    * Callback for when the current view is updated.
    */
-  viewUpdated: React.PropTypes.func,
+  viewUpdated: PropTypes.func,
   /**
   * Target framerate for rendering engine
   */
-  targetFramerate: React.PropTypes.number
+  targetFramerate: PropTypes.number
 };
 
 Vizceral.defaultProps = {
