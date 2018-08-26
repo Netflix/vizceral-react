@@ -2,8 +2,8 @@
 
 import { isEqual } from 'lodash';
 import React from 'react'; // eslint-disable-line import/no-unresolved, import/no-extraneous-dependencies
-import PropTypes from 'prop-types'
 import VizceralGraph from 'vizceral';
+import PropTypes from 'prop-types';
 
 function getPerformanceNow() {
   const g = window;

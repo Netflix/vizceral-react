@@ -1,30 +1,29 @@
 'use strict';
-var path = require('path');
-var webpack = require('webpack');
-var yargs = require('yargs');
+const path = require('path');
+const yargs = require('yargs');
 
-var options = yargs
+const options = yargs
   .alias('p', 'optimize-minimize')
   .alias('d', 'debug')
   .argv;
 
-var config = {
+const config = {
   entry: './src/vizceral.jsx',
   output: {
-    path: './dist',
+    path: path.resolve(__dirname, 'dist'),
     filename: options.optimizeMinimize ? 'vizceral.min.js' : 'vizceral.js',
     library: 'Vizceral',
     libraryTarget: 'umd'
   },
   resolve: {
-    extensions: ['', '.jsx', '.js'],
-    modulesDirectories: ['node_modules', 'bower_components']
+    extensions: ['.jsx', '.js'],
+    modules: ['node_modules', 'bower_components']
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loader: 'babel',
+        use: 'babel-loader',
         exclude: /node_modules/
       }
     ]
