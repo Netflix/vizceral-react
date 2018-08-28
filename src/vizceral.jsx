@@ -5,7 +5,7 @@ import React from 'react'; // eslint-disable-line import/no-unresolved, import/n
 import VizceralGraph from 'vizceral';
 import PropTypes from 'prop-types';
 
-function getPerformanceNow() {
+function getPerformanceNow () {
   const g = window;
   if (g != null) {
     const perf = g.performance;
@@ -54,7 +54,6 @@ function getPerformanceNow() {
  * ## Props
  */
 class Vizceral extends React.Component {
-
   componentDidMount () {
     this.vizceral = new VizceralGraph(this.refs.vizCanvas, this.props.targetFramerate);
     this.updateStyles(this.props.styles);
@@ -99,16 +98,16 @@ class Vizceral extends React.Component {
     if (!isEqual(nextProps.styles, this.props.styles)) {
       this.updateStyles(nextProps.styles);
     }
-    if (!isEqual(nextProps.view, this.props.view) ||
-        !isEqual(nextProps.objectToHighlight, this.props.objectToHighlight)) {
+    if (!isEqual(nextProps.view, this.props.view)
+        || !isEqual(nextProps.objectToHighlight, this.props.objectToHighlight)) {
       this.vizceral.setView(nextProps.view, nextProps.objectToHighlight);
     }
 
     if (!isEqual(nextProps.filters, this.props.filters)) {
       this.vizceral.setFilters(nextProps.filters);
     }
-    if (!isEqual(nextProps.showLabels, this.props.showLabels) ||
-        !isEqual(nextProps.allowDraggingOfNodes, this.props.allowDraggingOfNodes)) {
+    if (!isEqual(nextProps.showLabels, this.props.showLabels)
+        || !isEqual(nextProps.allowDraggingOfNodes, this.props.allowDraggingOfNodes)) {
       this.vizceral.setOptions({
         allowDraggingOfNodes: nextProps.allowDraggingOfNodes,
         showLabels: nextProps.showLabels
