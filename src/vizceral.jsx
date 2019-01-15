@@ -134,6 +134,7 @@ class Vizceral extends React.Component {
   }
 
   componentWillUnmount () {
+    this.vizceral.animate = () => {};
     delete this.vizceral;
   }
 
