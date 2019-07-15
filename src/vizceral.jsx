@@ -186,9 +186,9 @@ Vizceral.propTypes = {
    */
   objectHighlighted: PropTypes.func,
   /**
-   * Pass in an object to highlight
+   * Pass in the name of the object to highlight
    */
-  objectToHighlight: PropTypes.object,
+  objectToHighlight: PropTypes.string,
   /**
    * Callback for when the top level node context panel size changes. The updated dimensions is the only parameter.
    */
