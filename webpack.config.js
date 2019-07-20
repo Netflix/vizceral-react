@@ -1,4 +1,7 @@
+/* globals __dirname module */
+
 'use strict';
+
 const path = require('path');
 const yargs = require('yargs');
 

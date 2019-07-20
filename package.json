@@ -5,6 +5,7 @@
   "main": "dist/vizceral.js",
   "scripts": {
     "build": "npm run copy:css && webpack --bail && webpack --bail -p",
+    "build:dev": "npm run copy:css && webpack --bail --mode=development && webpack --bail -d --mode=development",
     "doc": "./docs.js ./src/vizceral.jsx",
     "lint": "eslint src --ext .js --ext .jsx --fix",
     "copy:css": "cpx ./src/vizceral.css ./dist",
@@ -48,7 +49,7 @@
     "yargs": "^12.0.1"
   },
   "dependencies": {
-    "lodash": "^4.16.4",
+    "lodash": "^4.17.14",
     "prop-types": "^15.6.1",
     "vizceral": "^4.8.0"
   }
